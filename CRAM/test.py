@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.sparse import random, csr_matrix, coo_matrix
-print('starting')
+import CRAM
 
 def generate_random_sparse_matrix(rows, cols, density, format='csr', random_state=None):
     """
@@ -23,15 +23,23 @@ def generate_random_sparse_matrix(rows, cols, density, format='csr', random_stat
     )
     return sparse_matrix
 
-# Example Usage
-rows, cols = 5, 5        # Size of the matrix
-density = 0.3            # 30% of the elements will be non-zero
-format = 'csr'           # Choose the format: 'csr', 'coo', or 'csc'
-random_state = 42        # Set a seed for reproducibility (optional)
 
-# Generate a random sparse matrix
-sparse_matrix = generate_random_sparse_matrix(rows, cols, density, format, random_state)
+def test_parse():
+    testpath = '/tmp'
 
-# Print the matrix
-print(f"Sparse matrix ({format.upper()} format):\n{sparse_matrix}\n")
-print(f"Array representation:\n{sparse_matrix.toarray()}")
+    rows, cols = 5, 5        # Size of the matrix
+    density = 0.3            # 30% of the elements will be non-zero
+    format = 'coo'           # Choose the format: 'csr', 'coo', or 'csc'
+    random_state = 42        # Set a seed for reproducibility (optional)
+
+    sparse_matrix = generate_random_sparse_matrix(rows, cols, density, format, random_state)
+    filewriter = CRAM.FileWriter(testpath + 'test.cram')
+    print(filewriter.write(sparse_matrix))
+
+    fileparser = CRAM.FileParser(testpath + 'test.cram')
+    print(sparse_matrix)
+    # test fileparser row fetch
+    for i in range(rows):
+        print(fileparser.parse(i))
+    # test fileparser range fetch
+    print(fileparser.parse_range(0, 5))

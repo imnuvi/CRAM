@@ -30,7 +30,7 @@ Size: 40 bytes
 | Field | Type | Size (Bytes) | Description |
 |-------|------|--------------|-------------|
 | Magic Number | ASCII | 4 | File identifier - CRAM |
-| Version | Integer | 4 | File format version |
+| Version | Integer | 2 | File format version |
 | Rows | Integer | 4 | Number of rows in the matrix |
 | Columns | Integer | 4 | Number of columns in the matrix |
 | Non-Zero Count | Integer | 8 | Total number of non-zero entries |
