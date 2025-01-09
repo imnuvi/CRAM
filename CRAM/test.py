@@ -42,4 +42,8 @@ def test_parse():
     for i in range(rows):
         print(fileparser.parse(i))
     # test fileparser range fetch
+    print("--------------------")
     print(fileparser.parse_range(0, 5))
+    print("--------------------")
+    print(fileparser.parse_index_list([0,1,2,3,4]))
+    print("--------------------")
