@@ -25,25 +25,31 @@ def generate_random_sparse_matrix(rows, cols, density, format='csr', random_stat
 
 
 def test_parse():
-    testpath = '/tmp'
+    testpath = '/tmp/'
+    fullpath = testpath + 'test.cram'
 
-    rows, cols = 5, 5        # Size of the matrix
+    rows, cols = 8, 5        # Size of the matrix
     density = 0.3            # 30% of the elements will be non-zero
     format = 'coo'           # Choose the format: 'csr', 'coo', or 'csc'
     random_state = 42        # Set a seed for reproducibility (optional)
 
     sparse_matrix = generate_random_sparse_matrix(rows, cols, density, format, random_state)
-    filewriter = CRAM.FileWriter(testpath + 'test.cram')
+    filewriter = CRAM.FileWriter(fullpath)
     print(filewriter.write(sparse_matrix))
 
-    fileparser = CRAM.FileParser(testpath + 'test.cram')
+    fileparser = CRAM.FileParser(fullpath)
     print(sparse_matrix)
+    # test fileparser range fetch
+    print("--------------------")
+    print(fileparser.parse_headers())
+    print("--------------------")
     # test fileparser row fetch
     for i in range(rows):
         print(fileparser.parse(i))
-    # test fileparser range fetch
     print("--------------------")
     print(fileparser.parse_range(0, 5))
     print("--------------------")
     print(fileparser.parse_index_list([0,1,2,3,4]))
     print("--------------------")
+
+test_parse()

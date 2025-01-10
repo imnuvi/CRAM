@@ -27,7 +27,7 @@ class FileWriter():
         with open(self.filepath, 'wb') as f:
             # Headers
             f.write(b'CRAM')
-            f.write(struct.pack('=h', int(self.core.version)))
+            f.write(struct.pack('=h', self.core.version))
             f.write(struct.pack('=iiq', rows, cols, nnz))
             f.write(struct.pack('=qq', self.core.header_size, data_offset))
 

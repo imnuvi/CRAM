@@ -5,10 +5,53 @@ class FileParser():
     def __init__(self, filepath):
         self.core = core.CRAMCore()
         self.filepath = filepath
+    
+    def parse_headers(self):
+        '''
+        Reads the header contents of the CRAM file
+
+        input: none
+
+        implementation: The seeker acts as a incremental pointer calculating where to seek and reads the data bytes based on CRAM.core
+
+        output:
+        :return: Header packet for the file
+        :rtype: dict<str, str>
+        '''
+        seeker = 0
+        with open(self.filepath, 'rb') as f:
+            # magic number
+            seeker += 4
+            f.seek(seeker)
+
+            # version
+            version_size = struct.calcsize('=h')
+            version, = struct.unpack('=h', f.read(version_size))
+            seeker += version_size
+            f.seek(seeker)
+
+            rcnn_pattern = '=iiq'
+            rcnn_size = struct.calcsize(rcnn_pattern)
+            rows, cols, nnz = struct.unpack(rcnn_pattern, f.read(rcnn_size))
+            seeker += rcnn_size
+            f.seek(seeker)
+
+            header_dict = {
+                "version" : version,
+                "rows" : rows,
+                "columns" : cols,
+                "non_zero_count" : nnz,
+            }
+            return header_dict
+
+            # struct.unpack('=qq', self.core.header_size, data_offset))
 
     def parse(self, row_idx):
         '''
         Takes a row index and returns the data packets for those
+
+        implementation: seek to the end of the header and read the row index list collecting the offsets for the row
+        seek to the data block and read data packets based on rows and packet sizes
 
         input:
         :param row_idx: row index
@@ -32,6 +75,9 @@ class FileParser():
     def parse_range(self, start, end):
         '''
         Takes a range of rows and returns the data packets for those
+
+        implementation: seek to the end of the header and read the row index list collecting the offsets for each row
+        seek to the data block and read data packets based on rows and packet sizes
 
         input:
         :param start: start of range
@@ -63,6 +109,9 @@ class FileParser():
     def parse_index_list(self, index_list):
         '''
         Takes a list of row indices and returns the data packets for the specified rows
+
+        implementation: seek to the end of the header and read the row index list collecting the offsets for each row
+        seek to the data block and read data packets based on rows and packet sizes
 
         input:
         :param index_list: list of row indices
