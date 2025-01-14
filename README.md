@@ -62,3 +62,19 @@ Size: 8
 
 
 
+</br>
+
+## Installation
+
+To install the package
+
+```
+Pip install sparse-CRAM
+```
+
+Usage:
+```
+cram_path = '/path/to/cram_file.cram'
+fileparser = CRAM.FileParser(cram_path)
+headers = fileparser.parse_headers()
+```
