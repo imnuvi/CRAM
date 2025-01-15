@@ -52,4 +52,3 @@ def test_parse():
     print(fileparser.parse_index_list([0,1,2,3,4]))
     print("--------------------")
 
-test_parse()
