@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sparse-CRAM"
-version = "0.1.5"
+version = "0.1.6.1"
 description = "A Basic Reader and Writer for CRAM format"
 authors = ["Ram Prakash Ayyam Perumal <nuvi@umich.edu>"]
 readme = "README.md"
@@ -20,7 +20,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "CRAM"
-version = "0.1.0"
+version = "0.1.6.1"
 readme = "README.md"
 requires-python = ">=3.10"
 description = "A Basic Reader and Writer for CRAM format"

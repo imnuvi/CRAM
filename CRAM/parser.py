@@ -106,7 +106,7 @@ class FileParser():
                 rows.append(row_data)
         return rows
 
-    def parse_index_list(self, index_list):
+    def parse_index_list(self, index_list, split_lists=False):
         '''
         Takes a list of row indices and returns the data packets for the specified rows
 
@@ -129,9 +129,22 @@ class FileParser():
                 offsets_list.append((offset, nnz))
 
             # Read data: seek to the actual data offset location and read the data packet
-            rows = []
+            if split_lists:
+                cols = []
+                values = []
+            else:
+                rows = []
             for offset, nnz in offsets_list:
                 f.seek(offset)
                 row_data = [struct.unpack('=if', f.read(self.core.packet_size)) for _ in range(nnz)]
-                rows.append(row_data)
-            return rows
+                if split_lists:
+                    ncols, nvalues = zip(*row_data)
+                    cols.append(ncols)
+                    values.append(nvalues)
+                else:
+                    rows.append(row_data)
+
+            if split_lists:
+                return index_list, cols, values
+            else:
+                return rows

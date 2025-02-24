@@ -51,4 +51,4 @@ def test_parse():
     print("--------------------")
     print(fileparser.parse_index_list([0,1,2,3,4]))
     print("--------------------")
-
+    print(fileparser.parse_index_list([0,1,2,3,4], split_lists=True))

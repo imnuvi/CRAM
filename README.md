@@ -69,7 +69,7 @@ Size: 8
 To install the package
 
 ```
-Pip install sparse-CRAM
+pip install sparse-CRAM
 ```
 
 Usage:
